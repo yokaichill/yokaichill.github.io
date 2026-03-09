@@ -43,6 +43,7 @@ function attemptBefriend() {
         elements.status.innerText = `Bingo ! ${currentWildYokai.name} te donne son médaillon !`;
         medallium.push(currentWildYokai);
         updateMedalliumDisplay();
+        saveGame();
     } else {
         elements.status.innerText = `Zut... ${currentWildYokai.name} a mangé et s'est enfui.`;
     }
@@ -66,3 +67,5 @@ function updateMedalliumDisplay() {
         elements.medalliumList.appendChild(medalElement);
     });
 }
+
+window.onload = loadGame;
