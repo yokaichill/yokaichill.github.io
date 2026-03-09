@@ -1,101 +1,70 @@
-/* global medallium, updateMedalliumDisplay */ // Dit à SonarLint que ces variables viennent de game.js
-
 const SAVE_KEY = 'yokaichill_save_data';
 
-// 1. Sauvegarde Interne (Automatique)
-function saveGame() {
-    const gameData = {
-        medallium: medallium,
-        lastSaved: Date.now() // CORRECTION 1: Plus moderne que new Date().getTime()
-    };
-    
-    const jsonString = JSON.stringify(gameData);
-    const encodedSave = btoa(jsonString);
-    
-    localStorage.setItem(SAVE_KEY, encodedSave);
-    console.log("Jeu sauvegardé (Base64) !");
+export function saveGame(medallium) {
+    const gameData = { medallium, lastSaved: Date.now() };
+    localStorage.setItem(SAVE_KEY, btoa(JSON.stringify(gameData)));
+    console.log("Jeu sauvegardé !");
 }
 
-// 2. Chargement Interne (Automatique au démarrage)
-function loadGame() {
+export function loadGame(medallium, updateMedalliumDisplay) {
     const savedString = localStorage.getItem(SAVE_KEY);
-    
-    if (savedString) {
-        try {
-            const decodedString = atob(savedString);
-            const gameData = JSON.parse(decodedString);
-            
-            if (gameData.medallium) {
-                // CORRECTION 2: On vide le tableau et on le remplit proprement au lieu de l'écraser
-                medallium.length = 0; 
-                medallium.push(...gameData.medallium);
-            }
-            console.log("Sauvegarde chargée avec succès !");
-            updateMedalliumDisplay();
-        } catch (error) {
-            console.error("Erreur critique : La sauvegarde est corrompue.", error);
-            alert("Erreur de lecture de la sauvegarde locale.");
+    if (!savedString) return console.log("Aucune sauvegarde trouvée.");
+
+    try {
+        const gameData = JSON.parse(atob(savedString));
+        if (gameData.medallium) {
+            medallium.length = 0;
+            medallium.push(...gameData.medallium);
         }
-    } else {
-        console.log("Aucune sauvegarde trouvée, nouvelle partie.");
+        updateMedalliumDisplay();
+        console.log("Sauvegarde chargée !");
+    } catch (e) {
+        console.error("Sauvegarde corrompue.", e);
+        alert("Erreur de lecture de la sauvegarde locale.");
     }
 }
 
-// 3. Exporter la sauvegarde (Fichier .txt)
-function exportSave() {
-    saveGame();
+export function exportSave(medallium, updateMedalliumDisplayFn) {
+    saveGame(medallium);
     const savedString = localStorage.getItem(SAVE_KEY);
-    
     if (!savedString) return alert("Rien à exporter !");
 
     const blob = new Blob([savedString], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    
     const a = document.createElement("a");
     a.href = url;
-    const date = new Date().toISOString().split('T')[0];
-    a.download = `yokaichill_save_${date}.txt`;
-    
+    a.download = `yokaichill_save_${new Date().toISOString().split('T')[0]}.txt`;
     document.body.appendChild(a);
     a.click();
-    
-    a.remove(); // CORRECTION 3: Syntaxe moderne pour supprimer l'élément
+    a.remove();
     URL.revokeObjectURL(url);
 }
 
-// 4. Importer la sauvegarde (Depuis le fichier .txt)
-// CORRECTION 5: Utilisation de async/await et file.text()
-async function importSave(event) {
+export async function importSave(event, medallium, updateMedalliumDisplay) {
     const file = event.target.files[0];
     if (!file) return;
-
     try {
-        const fileContent = await file.text(); // Remplace le vieux FileReader
-        const decodedString = atob(fileContent.trim());
-        const testParse = JSON.parse(decodedString);
-        
-        // CORRECTION 4: Condition plus propre (vérifie juste que ça existe)
+        const fileContent = await file.text();
+        const testParse = JSON.parse(atob(fileContent.trim()));
         if (testParse.medallium) {
             localStorage.setItem(SAVE_KEY, fileContent.trim());
-            loadGame();
-            alert("Sauvegarde importée avec succès !");
+            loadGame(medallium, updateMedalliumDisplay);
+            alert("Sauvegarde importée !");
         } else {
-            alert("Le fichier ne contient pas de données Yokaichill.");
+            alert("Fichier invalide : pas de données Yokaichill.");
         }
-    } catch (error) {
-        alert("Fichier invalide. Assure-toi d'importer un fichier .txt de sauvegarde valide.");
-        console.error(error);
+    } catch (e) {
+        alert("Fichier invalide.");
+        console.error(e);
     }
-    
     event.target.value = "";
 }
 
-// 5. Hard Reset
-function hardReset() {
-    if (confirm("⚠️ ATTENTION : Tu vas perdre tous tes Yo-kai et recommencer à zéro. Es-tu sûr ?")) {
+export function hardReset(medallium, updateMedalliumDisplay) {
+    if (confirm("⚠️ Tu vas perdre tous tes Yo-kai. Es-tu sûr ?")) {
         localStorage.removeItem(SAVE_KEY);
         medallium.length = 0;
         updateMedalliumDisplay();
-        alert("Partie effacée. Bon courage pour tout recommencer !");
+        alert("Partie effacée !");
     }
 }

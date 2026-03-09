@@ -1,8 +1,9 @@
-// --- ÉTAT DU JEU ---
-let currentWildYokai = null;
-let medallium = [];
+import { yokaiDatabase } from './data.js';
+import { saveGame, loadGame, exportSave, importSave, hardReset } from './save.js';
 
-// --- ÉLÉMENTS DU DOM ---
+let currentWildYokai = null;
+export let medallium = [];
+
 const elements = {
     status: document.getElementById("radar-status"),
     wildYokaiDiv: document.getElementById("wild-yokai"),
@@ -14,21 +15,14 @@ const elements = {
     medalliumCount: document.getElementById("medallium-count")
 };
 
-// --- FONCTIONS ---
-
 function scanYokai() {
     elements.status.innerText = "La montre réagit... !";
     elements.scanBtn.classList.add("hidden");
-    
-    // Simuler un petit délai de recherche pour le suspense
     setTimeout(() => {
-        const randomIndex = Math.floor(Math.random() * yokaiDatabase.length);
-        currentWildYokai = yokaiDatabase[randomIndex];
-
+        currentWildYokai = yokaiDatabase[Math.floor(Math.random() * yokaiDatabase.length)];
         elements.yokaiName.innerText = currentWildYokai.name;
         elements.yokaiRank.innerText = `Rang ${currentWildYokai.rank}`;
         elements.yokaiTribe.innerText = currentWildYokai.tribe;
-        
         elements.status.innerText = `Un ${currentWildYokai.name} sauvage apparaît !`;
         elements.wildYokaiDiv.classList.remove("hidden");
     }, 800);
@@ -36,36 +30,38 @@ function scanYokai() {
 
 function attemptBefriend() {
     const isCaught = Math.random() < currentWildYokai.catchRate;
-
     elements.wildYokaiDiv.classList.add("hidden");
-
     if (isCaught) {
         elements.status.innerText = `Bingo ! ${currentWildYokai.name} te donne son médaillon !`;
         medallium.push(currentWildYokai);
         updateMedalliumDisplay();
-        saveGame();
+        saveGame(medallium);
     } else {
         elements.status.innerText = `Zut... ${currentWildYokai.name} a mangé et s'est enfui.`;
     }
-
     currentWildYokai = null;
-    
     setTimeout(() => {
         elements.status.innerText = "Prêt à scanner les environs.";
         elements.scanBtn.classList.remove("hidden");
     }, 2500);
 }
 
-function updateMedalliumDisplay() {
-    elements.medalliumList.innerHTML = ""; 
+export function updateMedalliumDisplay() {
+    elements.medalliumList.innerHTML = "";
     elements.medalliumCount.innerText = medallium.length;
-
     medallium.forEach(yokai => {
-        const medalElement = document.createElement("div");
-        medalElement.classList.add("medal");
-        medalElement.innerHTML = `${yokai.name}<br>(${yokai.rank})`;
-        elements.medalliumList.appendChild(medalElement);
+        const el = document.createElement("div");
+        el.classList.add("medal");
+        el.innerHTML = `${yokai.name}<br>(${yokai.rank})`;
+        elements.medalliumList.appendChild(el);
     });
 }
 
-window.onload = loadGame;
+// Expose to HTML onclick handlers
+globalThis.scanYokai = scanYokai;
+globalThis.attemptBefriend = attemptBefriend;
+globalThis.exportSave = () => exportSave(medallium);
+globalThis.importSave = (e) => importSave(e, medallium, updateMedalliumDisplay);
+globalThis.hardReset = () => hardReset(medallium, updateMedalliumDisplay);
+
+loadGame(medallium, updateMedalliumDisplay);
