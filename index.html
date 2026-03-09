@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yokaichill - Le Jeu Web</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>⌚ Yokaichill</h1>
+        <p class="subtitle">Attrape-les... euh, deviens ami avec eux tous !</p>
+    </header>
+
+    <main>
+        <section class="radar-box">
+            <h2>Radar Yo-kai</h2>
+            <div id="radar-screen" class="screen">
+                <p id="radar-status">Prêt à scanner les environs.</p>
+                
+                <div id="wild-yokai" class="hidden">
+                    <div class="yokai-card">
+                        <h3 id="yokai-name">???</h3>
+                        <div class="yokai-stats">
+                            <span class="badge rank" id="yokai-rank">Rang ?</span>
+                            <span class="badge tribe" id="yokai-tribe">Tribu ?</span>
+                        </div>
+                    </div>
+                    <button class="action-btn" onclick="attemptBefriend()">🍔 Donner de la nourriture</button>
+                </div>
+            </div>
+            <button id="scan-btn" class="main-btn" onclick="scanYokai()">🔍 Utiliser la montre</button>
+        </section>
+
+        <section class="inventory-box">
+            <h2>Médallium (<span id="medallium-count">0</span>)</h2>
+            <div class="medallium" id="medallium-list">
+                <p class="empty-msg">Ton Médallium est vide. Utilise le radar !</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+:root {
+    --primary-red: #E63946;
+    --bg-color: #F1FAEE;
+    --text-dark: #1D3557;
+    --accent-blue: #457B9D;
+    --card-bg: #FFFFFF;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2, h3 { font-family: 'Fredoka One', cursive; margin: 0; }
+header { text-align: center; margin-bottom: 30px; }
+.subtitle { color: var(--accent-blue); font-weight: bold; }
+
+main {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Boîtes principales */
+.radar-box, .inventory-box {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Écran du radar */
+.screen {
+    background: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: inset 3px #ccc;
+}
+
+/* Boutons */
+button {
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+button:active { transform: scale(0.95); }
+
+.main-btn { background-color: var(--primary-red); color: white; padding: 15px 30px; font-size: 1.2rem; }
+.main-btn:hover { background-color: #d62828; }
+
+.action-btn { background-color: #A8DADC; color: var(--text-dark); padding: 10px 20px; margin-top: 15px; }
+.action-btn:hover { background-color: #81b2b4; }
+
+/* Cartes et Badges */
+.yokai-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+.badge { padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; color: white; margin: 0 5px; }
+.badge.rank { background: #F4A261; }
+.badge.tribe { background: #2A9D8F; }
+
+/* Médallium */
+.medallium { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
+.medal {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: white; text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    border: 3px solid #fff;
+    font-size: 0.8rem;
+    animation: popIn 0.3s ease-out;
+}
+
+.hidden { display: none !important; }
+@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
