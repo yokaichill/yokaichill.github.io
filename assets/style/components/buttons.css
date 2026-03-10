@@ -1,0 +1,24 @@
+button {
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+button:active { transform: scale(0.95); }
+
+.main-btn { 
+    background-color: var(--primary-red); 
+    color: white; 
+    padding: 15px 30px; 
+    font-size: 1.2rem; 
+}
+
+.action-btn { 
+    background-color: #A8DADC; 
+    color: var(--text-dark); 
+    padding: 10px 20px; 
+    margin-top: 15px; 
+}

@@ -8,7 +8,10 @@ export function saveGame(medallium) {
 
 export function loadGame(medallium, updateMedalliumDisplay) {
     const savedString = localStorage.getItem(SAVE_KEY);
-    if (!savedString) return console.log("Aucune sauvegarde trouvée.");
+    if (!savedString) {
+        console.log("Aucune sauvegarde trouvée.");
+        return;
+    }
 
     try {
         const gameData = JSON.parse(atob(savedString));
@@ -20,11 +23,12 @@ export function loadGame(medallium, updateMedalliumDisplay) {
         console.log("Sauvegarde chargée !");
     } catch (e) {
         console.error("Sauvegarde corrompue.", e);
-        alert("Erreur de lecture de la sauvegarde locale.");
+        localStorage.removeItem(SAVE_KEY);
+        alert("La sauvegarde était corrompue et a été effacée. Désolé !");
     }
 }
 
-export function exportSave(medallium, updateMedalliumDisplayFn) {
+export function exportSave(medallium) {
     saveGame(medallium);
     const savedString = localStorage.getItem(SAVE_KEY);
     if (!savedString) return alert("Rien à exporter !");
@@ -49,12 +53,12 @@ export async function importSave(event, medallium, updateMedalliumDisplay) {
         if (testParse.medallium) {
             localStorage.setItem(SAVE_KEY, fileContent.trim());
             loadGame(medallium, updateMedalliumDisplay);
-            alert("Sauvegarde importée !");
+            alert("Sauvegarde importée avec succès !");
         } else {
             alert("Fichier invalide : pas de données Yokaichill.");
         }
     } catch (e) {
-        alert("Fichier invalide.");
+        alert("Fichier invalide ou corrompu.");
         console.error(e);
     }
     event.target.value = "";
@@ -63,6 +67,7 @@ export async function importSave(event, medallium, updateMedalliumDisplay) {
 export function hardReset(medallium, updateMedalliumDisplay) {
     if (confirm("⚠️ Tu vas perdre tous tes Yo-kai. Es-tu sûr ?")) {
         localStorage.removeItem(SAVE_KEY);
+        localStorage.removeItem('yokaichill_last_view');
         medallium.length = 0;
         updateMedalliumDisplay();
         alert("Partie effacée !");

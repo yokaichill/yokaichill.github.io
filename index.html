@@ -3,61 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yokaichill</title>
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="manifest" href="site.webmanifest" />
+    <title>Yokaichill</title>
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
     <link rel="stylesheet" href="assets/style/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <button id="menu-trigger" onclick="toggleMenu()" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-menu">
+        <span class="icon" aria-hidden="true">📜</span>
+    </button>
+
+    <nav id="main-menu" class="hidden">
+        <div class="menu-content">
+            <h2 class="fredoka">Menu</h2>
+            <button class="menu-btn" onclick="showView('radar')">⌚ Balade (Radar)</button>
+            <button class="menu-btn" onclick="showView('medallium')">📖 Médallium</button>
+            <button class="menu-btn" onclick="showView('settings')">⚙️ Paramètres</button>
+            <button class="menu-close" onclick="toggleMenu()">Retour au jeu</button>
+        </div>
+    </nav>
+
     <header>
-        <h1>⌚ Yokaichill</h1>
-        <p class="subtitle">Attrape-les... euh, deviens ami avec eux tous !</p>
+        <h1 class="fredoka">⌚ Yokaichill</h1>
     </header>
 
-    <main>
-        <section class="radar-box">
-            <h2>Radar Yo-kai</h2>
-            <div id="radar-screen" class="screen">
-                <p id="radar-status">Prêt à scanner les environs.</p>
-                
-                <div id="wild-yokai" class="hidden">
-                    <div class="yokai-card">
-                        <h3 id="yokai-name">???</h3>
-                        <div class="yokai-stats">
-                            <span class="badge rank" id="yokai-rank">Rang ?</span>
-                            <span class="badge tribe" id="yokai-tribe">Tribu ?</span>
-                        </div>
-                    </div>
-                    <button class="action-btn" onclick="attemptBefriend()">🍔 Donner de la nourriture</button>
-                </div>
+    <main id="app-container">
+        <div id="home-view" class="view">
+            <p class="empty-msg">Bienvenue sur Yokaichill.<br>Ouvre le menu pour commencer ta balade !</p>
+        </div>
+
+        <section id="radar-view" class="view hidden">
+            <p id="radar-status" class="radar-status">Prêt à scanner les environs.</p>
+
+            <div id="wild-yokai" class="wild-yokai-card hidden">
+                <img id="yokai-img" src="" alt="Yokai sauvage">
+                <h2 id="yokai-name" class="fredoka" aria-live="polite">Yokaï rencontré</h2>
+                <p id="yokai-rank"></p>
+                <p id="yokai-tribe"></p>
+                <button class="action-btn" onclick="attemptBefriend()">🤝 Devenir ami !</button>
+                <button class="action-btn secondary" onclick="ignoreYokai()">🏃 Fuir</button>
             </div>
-            <button id="scan-btn" class="main-btn" onclick="scanYokai()">🔍 Utiliser la montre</button>
+
+            <button id="scan-btn" class="scan-btn" onclick="scanYokai()">🔍 Scanner les environs</button>
         </section>
 
-        <section class="inventory-box">
-            <h2>Médallium (<span id="medallium-count">0</span>)</h2>
-            <div class="medallium" id="medallium-list">
-                <p class="empty-msg">Ton Médallium est vide. Utilise le radar !</p>
+        <section id="medallium-view" class="view hidden">
+            <div class="medallium-header">
+                <h2 class="fredoka">📖 Médallium</h2>
+                <span class="medallium-count-badge">
+                    <span id="medallium-count">0</span> Yokaï
+                </span>
             </div>
+            <input id="search-yokai" class="search-input" type="text" placeholder="🔎 Rechercher un Yokaï...">
+            <div id="medallium-list" class="medallium-grid"></div>
+            <p id="medallium-empty" class="empty-msg hidden">Aucun Yokaï trouvé.<br>Pars en balade pour en rencontrer !</p>
         </section>
 
-        <section class="radar-box">
-            <h2>Options de Sauvegarde</h2>
-            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px;">
-                <button class="action-btn" onclick="exportSave()">⬇️ Exporter (PC)</button>
-                <label class="action-btn" style="cursor: pointer;">
-                    ⬆️ Importer (PC)
-                    <input type="file" accept=".json" style="display:none" onchange="importSave(event)">
+        <section id="settings-view" class="view hidden">
+            <h2 class="fredoka">⚙️ Paramètres</h2>
+
+            <div class="settings-group">
+                <h3>Sauvegarde</h3>
+                <button class="action-btn" onclick="exportSave()">📤 Exporter la sauvegarde</button>
+                <label class="action-btn file-label">
+                    📥 Importer une sauvegarde
+                    <input type="file" id="import-file" accept=".txt" onchange="importSave(event)" class="hidden">
                 </label>
-                <button class="action-btn" style="background-color: #ffb8b8;" onclick="hardReset()">🗑️ Effacer la partie</button>
+            </div>
+
+            <div class="settings-group danger-zone">
+                <h3>Zone de danger</h3>
+                <button class="action-btn danger" onclick="hardReset()">🗑️ Réinitialiser la partie</button>
             </div>
         </section>
     </main>
 
-<script src="scripts/game.js" type="module"></script>
+    <script src="scripts/game.js" type="module"></script>
 </body>
 </html>
