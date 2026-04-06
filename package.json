@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Yokai watch game in web",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yokaichill/yokaichill.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yokaichill/yokaichill.github.io/issues"
+  },
+  "homepage": "https://github.com/yokaichill/yokaichill.github.io#readme",
+  "dependencies": {
+    "vite": "^8.0.5"
+  }
+}

@@ -1,7 +1,5 @@
-// Liste initiale de quelques Yo-kai pour tester le jeu
-export const yokaiDatabase = [
-    { id: 1, name: "Jibanyan", tribe: "Mignon", rank: "D", catchRate: 0.6 },
-    { id: 2, name: "Komasan", tribe: "Mignon", rank: "D", catchRate: 0.6 },
-    { id: 3, name: "Whisper", tribe: "Insaisissable", rank: "C", catchRate: 0.8 },
-    { id: 4, name: "Octorgone", tribe: "Vaillant", rank: "S", catchRate: 0.1 }
-];
+export { YOKAI_DATABASE } from './resources/yokai/yokai.js';
+export { TRIBES } from './resources/yokai/tribes.js';
+export { RANKS } from './resources/yokai/ranks.js';
+export { ELEMENTS } from './resources/yokai/elements.js';
+export { PERSONALITIES } from './resources/yokai/personalities.js';

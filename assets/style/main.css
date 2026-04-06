@@ -1,92 +1,645 @@
+/* ══════════════════════════════════════════════
+   YOKAICHILL — Design System
+   Palette : rouge vif / crème / bleu marine
+   Style : cartoon-card, mobile-first
+══════════════════════════════════════════════ */
+
 :root {
-    --primary-red: #E63946;
-    --bg-color: #F1FAEE;
-    --text-dark: #1D3557;
-    --accent-blue: #457B9D;
-    --card-bg: #FFFFFF;
+    --red:        #E63946;
+    --red-dark:   #c1121f;
+    --bg:         #F1FAEE;
+    --card:       #FFFFFF;
+    --navy:       #1D3557;
+    --blue:       #457B9D;
+    --blue-light: #A8DADC;
+    --text:       #1D3557;
+    --text-muted: #6b8ca3;
+    --border:     #dde8ef;
+    --success:    #2A9D8F;
+    --warning:    #F4A261;
+    --danger:     #E63946;
+    --radius:     14px;
+    --radius-sm:  8px;
+    --shadow:     0 4px 16px rgba(29,53,87,.12);
+    --nav-h:      64px;
+    --header-h:   54px;
 }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     font-family: 'Nunito', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-dark);
-    margin: 0;
-    padding: 20px;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ── Header ─────────────────────────────────── */
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-h1, h2, h3 { font-family: 'Fredoka One', cursive; margin: 0; }
-header { text-align: center; margin-bottom: 30px; }
-.subtitle { color: var(--accent-blue); font-weight: bold; }
-
-main {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.app-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: var(--red);
+    letter-spacing: .5px;
 }
 
-/* Boîtes principales */
-.radar-box, .inventory-box {
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+.money-badge {
+    background: var(--blue);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: .9rem;
+}
+
+/* ── Main scroll area ────────────────────────── */
+
+.app-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 12px calc(var(--nav-h) + 16px);
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ── Views ───────────────────────────────────── */
+
+.view { display: flex; flex-direction: column; gap: 14px; }
+.hidden { display: none !important; }
+
+/* ── Card ────────────────────────────────────── */
+
+.card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+    border: 1px solid var(--border);
+}
+
+.section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--navy);
+    margin-bottom: 12px;
+}
+
+/* ── Zone selector ───────────────────────────── */
+
+.zone-selector-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.zone-selector-row label {
+    font-weight: 800;
+    font-size: .85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    min-width: 52px;
+}
+
+select {
+    flex: 1;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--navy);
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color .2s;
+}
+select:focus { outline: none; border-color: var(--blue); }
+
+.zone-names {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    color: var(--blue);
+    font-size: .9rem;
+    padding-top: 4px;
+}
+.zone-sep { color: var(--text-muted); }
+.zone-sub-label { color: var(--navy); }
+
+/* ── Radar ───────────────────────────────────── */
+
+.radar-box {}
+
+.radar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.radar-timer {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.radar-list { display: flex; flex-direction: column; gap: 10px; }
+.radar-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 20px 0; }
+
+.yokai-encounter-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    transition: box-shadow .2s;
+}
+.yokai-encounter-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+
+.yokai-enc-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+    flex: 1;
+}
+
+.yokai-enc-name {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--navy);
+    width: 100%;
+}
+
+/* ── Badges ──────────────────────────────────── */
+
+.badge {
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+/* ── Buttons ─────────────────────────────────── */
+
+button {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s, background .2s;
+}
+button:active { transform: scale(.95); }
+
+.fight-btn {
+    background: var(--red);
+    color: #fff;
+    padding: 8px 14px;
+    font-size: .9rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.fight-btn:hover { background: var(--red-dark); }
+
+.action-btn {
+    background: var(--blue-light);
+    color: var(--navy);
+    padding: 10px 18px;
+    font-size: .95rem;
+    border-radius: var(--radius-sm);
+}
+.action-btn:hover { background: #81b2b4; }
+
+.danger-btn { background: #ffd6d6; color: var(--red-dark); }
+.danger-btn:hover { background: #ffb3b3; }
+
+/* ── Médallium ───────────────────────────────── */
+
+.medallium-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.medal {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tribe-color, #F4A261), color-mix(in srgb, var(--tribe-color, #F4A261) 60%, #fff));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.4);
+    border: 3px solid #fff;
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+    animation: popIn .3s ease-out;
+}
+.medal:hover { transform: scale(1.08); box-shadow: 0 6px 14px rgba(0,0,0,.2); }
+
+.medal-emoji { font-size: 1.3rem; line-height: 1; }
+.medal-name { font-size: .6rem; font-weight: 800; color: #fff; text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,.3); line-height: 1.2; padding: 0 4px; }
+.medal-rank { font-size: .75rem; font-weight: 900; color: rgba(255,255,255,.9); }
+
+.empty-msg { color: var(--text-muted); font-style: italic; text-align: center; padding: 20px 0; }
+
+/* ── Détail Yo-Kai (panel) ───────────────────── */
+
+.detail-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(29,53,87,.5);
+    display: flex;
+    align-items: flex-end;
+    padding: 0;
+    animation: fadeIn .2s ease;
+}
+.detail-panel:not(.hidden) { display: flex; }
+
+.detail-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--tribe-color, #457B9D), color-mix(in srgb, var(--tribe-color, #457B9D) 70%, #1D3557));
+    padding: 24px 20px 16px;
+    color: #fff;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.detail-panel > .detail-header,
+.detail-panel > .detail-body {
+    /* wrapping needed — see below */
+}
+
+/* Tout le contenu du panel dans un wrapper */
+.detail-panel {
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Override: le contenu est direct dans le panel */
+.detail-panel .detail-header {
+    width: 100%;
+    position: relative;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.detail-panel .detail-body {
+    background: var(--card);
+    width: 100%;
+    padding: 16px 20px 32px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255,255,255,.2);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close-btn:hover { background: rgba(255,255,255,.35); }
+
+.detail-tribe-badge { font-size: .85rem; font-weight: 700; opacity: .85; margin-bottom: 4px; }
+.detail-name { font-family: 'Fredoka One', cursive; font-size: 1.8rem; margin-bottom: 8px; }
+.detail-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.detail-desc { color: var(--text-muted); font-style: italic; margin-bottom: 14px; line-height: 1.5; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.stat-item {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: .8rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+}
+.stat-item strong { font-size: 1.1rem; color: var(--navy); }
+
+.soultimate-box {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    border-left: 4px solid var(--warning);
+}
+.soultimate-box h4 { font-family: 'Fredoka One', cursive; font-size: 1rem; color: var(--navy); margin-bottom: 4px; }
+.soultimate-box p { font-size: .85rem; color: var(--text-muted); }
+
+/* ── Équipe ──────────────────────────────────── */
+
+.team-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.team-slot { border-radius: var(--radius-sm); overflow: hidden; }
+
+.team-slot-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--tribe-color, #ccc) 15%, #fff), #fff);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+}
+
+.slot-emoji { font-size: 1.5rem; }
+.slot-name { font-weight: 800; flex: 1; }
+.slot-rank { font-weight: 900; font-size: 1.1rem; }
+
+.release-btn {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    padding: 4px 8px;
+}
+.release-btn:hover { color: var(--red); }
+
+.team-slot-empty {
+    padding: 14px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ── Sauvegarde ──────────────────────────────── */
+
+.save-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.file-label input[type="file"] { display: none; }
+
+/* ── Combat (overlay) ────────────────────────── */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(29,53,87,.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: fadeIn .2s ease;
+}
+.overlay.hidden { display: none; }
+
+.combat-inner {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.combat-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--navy);
     text-align: center;
 }
 
-/* Écran du radar */
-.screen {
-    background: #e0e0e0;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 15px 0;
-    min-height: 120px;
+.combat-hp-row {
     display: flex;
     flex-direction: column;
+    gap: 6px;
+    text-align: center;
+}
+
+.hp-bar-bg {
+    background: #e0e0e0;
+    border-radius: 20px;
+    height: 12px;
+    overflow: hidden;
+}
+.hp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success), #52c41a);
+    border-radius: 20px;
+    width: 100%;
+    transition: width .4s ease;
+}
+
+.combat-log {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    padding: 10px;
+    height: 120px;
+    overflow-y: auto;
+    font-size: .85rem;
+    line-height: 1.6;
+}
+.combat-log p { margin-bottom: 2px; }
+
+.combat-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-btn {
+    flex: 1;
+    min-width: 120px;
+    background: var(--navy);
+    color: #fff;
+    padding: 10px;
+    font-size: .9rem;
+    border-radius: var(--radius-sm);
+}
+.tech-btn:hover { background: var(--blue); }
+
+.flee-btn {
+    background: #f5f5f5;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 10px;
+    width: 100%;
+}
+.flee-btn:hover { background: #ececec; }
+
+/* ── Demande d'amitié ────────────────────────── */
+
+.friend-request-inner {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+.friend-request-inner h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--navy);
+    margin-bottom: 16px;
+}
+.friend-btns { display: flex; gap: 10px; justify-content: center; }
+
+/* ── Toasts ──────────────────────────────────── */
+
+.toast-container {
+    position: fixed;
+    top: calc(var(--header-h) + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: none;
+    width: min(92%, 400px);
+}
+
+.toast {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: .9rem;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity .3s, transform .3s;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast-success { background: var(--success); }
+.toast-error   { background: var(--red); }
+.toast-warning { background: var(--warning); color: var(--navy); }
+.toast-info    { background: var(--blue); }
+
+/* ── Bottom Nav ──────────────────────────────── */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-h);
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 -2px 12px rgba(29,53,87,.08);
+}
+
+.nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    border: inset 3px #ccc;
+    gap: 3px;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 0;
+    padding: 6px 0;
+    height: 100%;
+    transition: color .2s;
+}
+.nav-btn:active { transform: none; }
+.nav-btn.active { color: var(--red); }
+.nav-btn.active .nav-icon { transform: scale(1.15); }
+
+.nav-icon { font-size: 1.4rem; transition: transform .2s; }
+.nav-label { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .3px; }
+
+/* ── Animations ──────────────────────────────── */
+
+@keyframes popIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
 }
 
-/* Boutons */
-button {
-    font-family: 'Nunito', sans-serif;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Limite la taille des icônes de tribus/éléments */
+.icon-asset {
+    height: 1.2em;      /* S'adapte à la taille du texte */
+    width: auto;        /* Garde les proportions */
+    vertical-align: middle; 
+    margin-right: 4px;  /* Espace avec le nom de la tribu */
+    display: inline-block;
+}
+
+/* Optionnel : Si tu veux que le badge ait une taille cohérente */
+.badge.tribe {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 12px;
     font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
+    color: white; /* Pour la lisibilité */
 }
-button:active { transform: scale(0.95); }
-
-.main-btn { background-color: var(--primary-red); color: white; padding: 15px 30px; font-size: 1.2rem; }
-.main-btn:hover { background-color: #d62828; }
-
-.action-btn { background-color: #A8DADC; color: var(--text-dark); padding: 10px 20px; margin-top: 15px; }
-.action-btn:hover { background-color: #81b2b4; }
-
-/* Cartes et Badges */
-.yokai-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-.badge { padding: 5px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; color: white; margin: 0 5px; }
-.badge.rank { background: #F4A261; }
-.badge.tribe { background: #2A9D8F; }
-
-/* Médallium */
-.medallium { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
-.medal {
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: bold; color: white; text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    border: 3px solid #fff;
-    font-size: 0.8rem;
-    animation: popIn 0.3s ease-out;
-}
-
-.hidden { display: none !important; }
-@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }

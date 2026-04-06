@@ -2,62 +2,161 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yokaichill</title>
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="manifest" href="site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Yokaichill</title>
+    <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/style/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>⌚ Yokaichill</h1>
-        <p class="subtitle">Attrape-les... euh, deviens ami avec eux tous !</p>
-    </header>
 
-    <main>
-        <section class="radar-box">
-            <h2>Radar Yo-kai</h2>
-            <div id="radar-screen" class="screen">
-                <p id="radar-status">Prêt à scanner les environs.</p>
-                
-                <div id="wild-yokai" class="hidden">
-                    <div class="yokai-card">
-                        <h3 id="yokai-name">???</h3>
-                        <div class="yokai-stats">
-                            <span class="badge rank" id="yokai-rank">Rang ?</span>
-                            <span class="badge tribe" id="yokai-tribe">Tribu ?</span>
-                        </div>
-                    </div>
-                    <button class="action-btn" onclick="attemptBefriend()">🍔 Donner de la nourriture</button>
-                </div>
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header class="app-header">
+    <div class="header-inner">
+        <h1 class="app-title">Yokaichill</h1>
+        <div class="header-right">
+            <span id="money-display" class="money-badge">0 💰</span>
+        </div>
+    </div>
+</header>
+
+<!-- ══════════════════════ CONTENU PRINCIPAL ══════════════════════ -->
+<main class="app-main">
+
+    <!-- ═══ VUE : ZONE ═══ -->
+    <section id="view-zone" class="view">
+
+        <!-- Sélecteurs de zone -->
+        <div class="zone-selector-box card">
+            <div class="zone-selector-row">
+                <label>Zone</label>
+                <select id="sel-main-zone" onchange="onMainZoneChange()"></select>
             </div>
-            <button id="scan-btn" class="main-btn" onclick="scanYokai()">🔍 Utiliser la montre</button>
-        </section>
-
-        <section class="inventory-box">
-            <h2>Médallium (<span id="medallium-count">0</span>)</h2>
-            <div class="medallium" id="medallium-list">
-                <p class="empty-msg">Ton Médallium est vide. Utilise le radar !</p>
+            <div class="zone-selector-row">
+                <label>Secteur</label>
+                <select id="sel-sub-zone" onchange="onSubZoneChange()"></select>
             </div>
-        </section>
+            <div class="zone-names">
+                <span id="zone-main-name" class="zone-main-label">—</span>
+                <span class="zone-sep">›</span>
+                <span id="zone-sub-name" class="zone-sub-label">—</span>
+            </div>
+        </div>
 
-        <section class="radar-box">
-            <h2>Options de Sauvegarde</h2>
-            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 15px;">
-                <button class="action-btn" onclick="exportSave()">⬇️ Exporter (PC)</button>
-                <label class="action-btn" style="cursor: pointer;">
-                    ⬆️ Importer (PC)
-                    <input type="file" accept=".json" style="display:none" onchange="importSave(event)">
+        <!-- Radar -->
+        <div class="radar-box card">
+            <div class="radar-header">
+                <h2 class="section-title">📡 Radar Yo-Kai</h2>
+                <span id="radar-timer" class="radar-timer">—</span>
+            </div>
+            <div id="radar-yokai-list" class="radar-list">
+                <p class="radar-empty">Initialisation du radar...</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ═══ VUE : MÉDALLIUM ═══ -->
+    <section id="view-medallium" class="view hidden">
+        <div class="card">
+            <h2 class="section-title">📖 Médallium (<span id="medallium-count">0</span>)</h2>
+            <div id="medallium-list" class="medallium-grid"></div>
+        </div>
+        <!-- Panneau détail Yo-Kai -->
+        <div id="yokai-detail-panel" class="detail-panel hidden"></div>
+    </section>
+
+    <!-- ═══ VUE : ÉQUIPE ═══ -->
+    <section id="view-team" class="view hidden">
+        <div class="card">
+            <h2 class="section-title">👥 Mon Équipe</h2>
+            <div id="team-list" class="team-grid"></div>
+        </div>
+    </section>
+
+    <!-- ═══ VUE : INVENTAIRE ═══ -->
+    <section id="view-inventory" class="view hidden">
+        <div class="card">
+            <h2 class="section-title">🎒 Inventaire</h2>
+            <div id="inventory-list"></div>
+        </div>
+    </section>
+
+    <!-- ═══ VUE : SAUVEGARDE ═══ -->
+    <section id="view-save" class="view hidden">
+        <div class="card">
+            <h2 class="section-title">💾 Données</h2>
+            <div class="save-actions">
+                <button class="action-btn" onclick="YKC.exportSave()">⬇️ Exporter</button>
+                <label class="action-btn file-label">
+                    ⬆️ Importer
+                    <input type="file" accept=".yck,.txt" onchange="YKC.importSave(this.files[0])">
                 </label>
-                <button class="action-btn" style="background-color: #ffb8b8;" onclick="hardReset()">🗑️ Effacer la partie</button>
+                <button class="action-btn danger-btn" onclick="YKC.hardReset()">🗑️ Reset total</button>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-<script src="scripts/game.js" type="module"></script>
+</main>
+
+<!-- ══════════════════════ COMBAT PANEL (overlay) ══════════════════════ -->
+<div id="combat-panel" class="overlay hidden">
+    <div class="combat-inner card">
+        <h2 id="combat-enemy-name" class="combat-title">???</h2>
+        <div class="combat-hp-row">
+            <span id="combat-enemy-hp">❤️ —</span>
+            <div class="hp-bar-bg"><div id="combat-hp-bar" class="hp-bar-fill"></div></div>
+        </div>
+        <div id="combat-log" class="combat-log"></div>
+        <div id="combat-techniques" class="combat-actions"></div>
+        <button class="action-btn flee-btn" onclick="YKC.doFlee()">🏃 Fuir</button>
+    </div>
+</div>
+
+<!-- ══════════════════════ DEMANDE D'AMITIÉ (overlay) ══════════════════════ -->
+<div id="friend-request-overlay" class="overlay hidden">
+    <div class="friend-request-inner card">
+        <h3>🤝 <span id="friend-request-name">???</span> veut être ton ami !</h3>
+        <div class="friend-btns">
+            <button id="friend-accept" class="action-btn">✅ Accepter</button>
+            <button id="friend-refuse" class="action-btn danger-btn">❌ Refuser</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════ TOASTS ══════════════════════ -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ══════════════════════ BOTTOM NAV ══════════════════════ -->
+<nav class="bottom-nav">
+    <button class="nav-btn active" data-view="zone" onclick="showView('zone')">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-label">Zone</span>
+    </button>
+    <button class="nav-btn" data-view="medallium" onclick="showView('medallium')">
+        <span class="nav-icon">📖</span>
+        <span class="nav-label">Médallium</span>
+    </button>
+    <button class="nav-btn" data-view="team" onclick="showView('team')">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Équipe</span>
+    </button>
+    <button class="nav-btn" data-view="inventory" onclick="showView('inventory')">
+        <span class="nav-icon">🎒</span>
+        <span class="nav-label">Sac</span>
+    </button>
+    <button class="nav-btn" data-view="save" onclick="showView('save')">
+        <span class="nav-icon">💾</span>
+        <span class="nav-label">Config</span>
+    </button>
+</nav>
+
+<script type="module" src="/scripts/ui.js"></script>
+<script type="module" src="/scripts/game.js"></script>
+
 </body>
 </html>
